@@ -1,34 +1,38 @@
-# Primer Peldaño
+# Primer Peldaño - Week 13
 
-Primer Peldaño is David Buzali's Week 12 venture rebuild. It maps worker-controlled evidence from existing informal work to criteria for one opening, but only after an employer-commitment gate. The software preserves provenance and missingness; it never produces a global candidate score, hiring prediction, verification claim, or automatic verdict.
+Primer Peldaño is David Buzali's Week 13 real-human comprehension-test build. It helps a worker practice mapping existing informal-work evidence to criteria for one invented opening, while making the system's limits testable: term overlap is not verification or sufficiency, no file is sent automatically, and a person retains decision authority.
 
-- Live venture URL: https://primer-peldano-mx.vercel.app
-- GitHub: https://github.com/davidbuzali/week-12-primer-peldano
-- Vercel project: https://vercel.com/davidbuzali/week-12-primer-peldano
+- Live URL: https://week-13-primer-peldano.vercel.app
+- GitHub: https://github.com/davidbuzali/week-13-primer-peldano
+- Vercel project: https://vercel.com/davidbuzali/week-13-primer-peldano
 - Product charter: `docs/PRODUCT_CHARTER.md`
 - Packet-before-code: `docs/PACKET.md`
-- Testing and deploy cycle: `docs/TESTING.md`
-- Preliminary persona walkthrough: `docs/PERSONA.md`
+- Implementation prompt: `docs/IMPLEMENTATION_PROMPT.md`
+- Mechanical testing and two-deploy cycle: `docs/TESTING.md`
+- Preliminary persona record: `docs/PERSONA.md`
 - Demo narration: `docs/DEMO_SCRIPT.md`
-- Final reflection narration: `docs/REFLECTION_SCRIPT.md`
-- Build conversation: `docs/BUILDCHAT.md`
+- Full visible build conversation: `docs/BUILDCHAT.md`
 
 ## Status honesty
 
-The public flow uses invented people, employer, opening, commitment, and evidence. The reported real worker story is not published because consent is not documented. Employer demand, a real acceptance commitment, comparable 10:1 improvement, evidence truth, human review, and employment outcomes remain unverified.
+The public flow uses invented people, employer, vacancy, commitment, and evidence. It stores an anonymous allow-listed event log and bounded feedback only in the visitor's browser. Nothing is sent to an employer or analytics service, and the visitor can inspect, download, or reset the local session.
 
-The application starts in the real-use stop-state. A visitor must explicitly choose `Abrir demo inventada` before any evidence fields appear.
+The Week 13 technical milestone is shipped: a visitor can enter the fictional demo, compare honest term-match states, confront a keyword-stuffed counterexample, answer five boundary checks, leave local feedback, and export the session. The first production release exposed a reset defect; the second release fixes it and passed the exact regression plus a 390 x 844 responsive check.
 
-## Week 12 stack
+The venture milestone remains incomplete. Five real-user sessions, including at least three strangers, have not yet occurred; the fresh independent-chat persona pass, real employer commitment, worker consent, comparable 10:1 measurement, and human hiring review also remain unverified. This repository does not invent those results.
 
-- Next.js 16 + React 19 + TypeScript
-- Tailwind CSS 4
-- deterministic, visible-text evidence matching
-- optional Supabase client boundary with an owner-scoped RLS migration
-- Vercel production hosting under a venture-identity alias
-- GitHub source with five ordered Week 12 implementation commits plus final documentation
+## Separate Week 13 resources
 
-No Supabase environment is configured in the public demo. It stores and sends no records. `.env.example` contains blank public variables only; no service-role key belongs in the project.
+This repository, GitHub project, and Vercel project are separate from Week 12. The earlier `week-12-primer-peldano` repository and deployment remain intact.
+
+## Stack
+
+- Next.js 16, React 19, TypeScript, and Tailwind CSS 4
+- deterministic visible-text term matching
+- typed local event log with allow-listed metadata
+- five comprehension checks and bounded local feedback
+- optional Supabase boundary with owner-scoped RLS, inactive in the public demo
+- GitHub source and Vercel production hosting
 
 ## Local verification
 
@@ -40,7 +44,7 @@ pnpm lint
 pnpm build
 ```
 
-Final verified state: 10 tests passed; type checking, lint, and the Next.js production build passed; the venture URL loaded anonymously on desktop and at 390 x 844.
+Verified on 7 November 2026: 20 tests passed; type checking, lint, and the production build passed; the live URL loaded anonymously; and mobile `scrollWidth` equaled `clientWidth` at 390 pixels.
 
 ## Submission artifacts
 
@@ -48,4 +52,4 @@ Final verified state: 10 tests passed; type checking, lint, and the Next.js prod
 - `output/pdf/PERSONA_David_Buzali.pdf`
 - `output/pdf/BUILDCHAT_David_Buzali.pdf`
 
-The persona PDF is explicitly preliminary because a fresh independent-chat test has not yet been performed. Do not represent it as completed Layer 1 evidence.
+The persona PDF is deliberately labeled preliminary until the fresh independent-chat walkthrough is completed. The demo video and five real-user session evidence require manual human participation and are listed in `docs/SUBMISSION_CHECKLIST.md`.

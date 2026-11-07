@@ -1,79 +1,56 @@
-# Week 12 testing log - Primer Peldaño
+# Week 13 testing log - Primer Peldaño
 
-**Test date:** 29 October 2026, America/Mexico_City
+**Test date:** 7 November 2026, America/Mexico_City
 
-**URL of record:** https://primer-peldano-mx.vercel.app
+**URL of record:** https://week-13-primer-peldano.vercel.app
 
-**First ready deployment:** `dpl_4exL42rt5wKZ6D2YvGXHSc4ARM8k`
+**GitHub:** https://github.com/davidbuzali/week-13-primer-peldano
 
-**Fixed production deployment:** `dpl_GwyKHBVaJi6x4QQmPu5v3bZHoRWW`
+**Deployment 1:** `week-13-primer-peldano-2gzeg2rdn-davidbuzali.vercel.app`
 
-## Mechanical pass 1
+**Deployment 2:** `week-13-primer-peldano-7k9dfujcs-davidbuzali.vercel.app`
 
-### Automated checks
+## Automated mechanical pass
 
-- `pnpm typecheck`: passed.
-- `pnpm lint`: passed with zero warnings.
-- `pnpm test`: seven logic tests passed, zero failed.
-- `pnpm build`: Next.js 16 production build passed with a statically rendered `/` route.
+- 20 Node tests passed, zero failed.
+- TypeScript completed with no errors.
+- ESLint completed with zero warnings.
+- The Next.js production build completed and statically prerendered `/`.
+- A tracked-source scan found no API key, service-role key, private key, or populated secret variable.
 
-The logic suite covers required fields, length limits, sensitive-looking input, deterministic claim construction, visible-text matching, supported/partial/missing states, provenance, minimized export, and the absence of an aggregate score.
+The suite covers input limits, sensitive-looking text, deterministic mapping, the adversarial keyword case, absence of aggregate scoring, local event allow-lists, forbidden metadata, local feedback validation, the five boundary checks, reset behavior contracts, Supabase RLS, and Vercel configuration.
 
-### First deployment attempt and defect
+## Deployment 1
 
-The first Vercel upload reached the linked Week 9 project but failed because the project still expected the former Vite `dist` output. The code had migrated to Next.js, which produces `.next`. The durable project configuration now declares `framework: nextjs` and `outputDirectory: .next` in `vercel.json`; the Vercel project settings were aligned to the same values and Node 22.
+Vercel created the separate `davidbuzali/week-13-primer-peldano` project, connected it to the separate GitHub repository, produced a ready production deployment, and assigned the stable URL of record. An anonymous browser loaded the real-use stop-state without login.
 
-A second upload produced the first ready Week 12 deployment and assigned both the legacy production alias and the venture-identity alias.
+The live task then opened the invented demo, selected the keyword-stuffed case, produced four `Coincidencia de términos` states, displayed the explicit insufficiency warning, and revealed the five boundary checks plus local feedback form.
 
-### High-severity mechanical bug found
+## Required defect found
 
-**An anonymous browser was redirected to Vercel login.** An HTTP HEAD request returned 200, but a real navigation exposed project-level Vercel Authentication. This violated the Blueprint's URL-of-record condition: the company's door did not open for a grader or user.
+**Defect:** `Borrar y reiniciar sesión` cleared `localStorage` but did not clear the feedback component's in-memory draft. A note such as `Dudé aquí.` remained visibly present after reset.
 
-**Cause:** the linked project had `ssoProtection.deploymentType = all_except_custom_domains`. A `.vercel.app` alias was still protected even though it was assigned to the production deployment.
+**Why it mattered:** the control promised to erase and restart the local session. Leaving a free-text note on screen violated that expectation and could expose the prior participant's words to the next participant on a shared device.
 
-**Fix:** removed Vercel Authentication for this public coursework project only. The project contains no secrets or personal data, the demo writes no records, and previews do not expose user information. The project remains on HTTPS; source/log protection and Git-fork protection were not disabled.
+**Fix:** bind the feedback component's identity to the anonymous session ID. Resetting creates a new session ID, remounts the feedback form, and clears all in-memory answers and note text. The local-log disclosure now also distinguishes event metadata from the optional feedback note: events exclude the note, while a user-initiated export includes saved feedback so the participant can choose whether to share it.
 
-**Verification:** an anonymous in-app browser loaded `https://primer-peldano-mx.vercel.app` directly, with no login screen. The accessibility tree showed the public page and all expected controls.
+**Regression:** on deployment 2, the browser entered `Dudé aquí.`, selected `Borrar y reiniciar sesión`, and read the note field as an empty string. The visible event count returned to one.
 
-## Live browser checks
+## Responsive production pass
 
-### Employer gate
-
-- `Ver bloqueo real` removes all evidence inputs.
-- The stop-state says no evidence or data should be requested before a real, dated employer commitment.
-- Returning to the simulated demo restores invented records only.
-
-### Input and integrity
-
-- Replacing the first field with `persona@example.com` blocks mapping and reports that the field appears to contain sensitive data.
-- Replacing all visible evidence with generic text produces three `Sin evidencia` states and one `Parcial`; no hidden seed support survives.
-- Each status explains its reason, and only supported/partial states can cite visible claims.
-
-### Responsive layout
-
-- Desktop viewport: no horizontal overflow; hero, gate, opening, evidence form, and result cards render in the intended hierarchy.
-- Mobile viewport at 390 x 844: `scrollWidth` equals `innerWidth` (390); header, hero, criteria, example cards, inputs, and output cards stack without clipping.
+The fixed production alias was tested at a 390 x 844 viewport. `documentElement.scrollWidth`, `documentElement.clientWidth`, and `body.scrollWidth` were all exactly 390 pixels. The comprehension cards, radio controls, and text remained readable without horizontal overflow.
 
 ## Security floor
 
 | Check | Result |
 |---|---|
-| No secrets in code or repository | Pass. `.env.example` contains blank public variables only; no service-role key exists. |
-| Authentication for personal data | Not applicable to the public demo: it accepts invented examples and stores nothing. |
-| Supabase RLS | Pass for the optional future preflight table: RLS is enabled and policies require `auth.uid() = owner_id`. The migration is not applied to the public demo. |
-| Input validation | Pass: required text, length limits, email/phone/credential patterns, and card-number-like text are blocked. |
-| No real personal data | Pass: the reported worker story is not in the public application; all displayed people, employers, openings, and records are labeled invented. |
+| No secrets in code or repository | Pass. Public Supabase variables are blank; no service-role key exists. |
+| Authentication for personal data | Not applicable to the public fictional demo; it accepts no real identity and sends no records. |
+| Supabase RLS | Pass for the inactive future table: RLS is enabled and policies require `auth.uid() = owner_id`. |
+| Input validation | Pass: required text, length limits, sensitive-looking evidence, optional-note length, and sensitive-looking feedback are checked. |
+| No real personal data | Pass: all displayed people, employers, vacancies, commitments, and records are invented and labeled. |
+| Analytics minimization | Pass: allow-listed categorical events only; no evidence text, note, IP, browser, device, name, email, or phone in the event stream. |
 
-## Final pass and deployment 2
+## Real-human and persona passes
 
-The usability correction changed the default from the simulated commitment to the real stop-state. Ten automated tests, type checking, lint, and the production build passed after the fix. Deployment 2 reached `READY` with no deployment protection and the venture alias was repointed to it.
-
-Final browser verification at 390 x 844 confirmed:
-
-- the page opens with `Sin compromiso, el proceso se detiene aquí`;
-- no evidence fields exist until `Abrir demo inventada` is selected;
-- the demo then maps the default invented record to four supported criteria;
-- the page has no horizontal overflow;
-- the venture URL opens anonymously without a Vercel login.
-
-The preliminary persona record remains explicitly labeled as developer-run rather than a fresh independent chat. It cannot validate employer demand, worker benefit, lived experience, or comprehension by a real person.
+Not yet completed. The course requires five relevant outsiders, at least three strangers, under the predeclared ten-minute protocol, plus a fresh independent-chat synthetic persona walkthrough. These outcomes require human participation and must not be backfilled from developer QA. The session sheet in `docs/FIVE_USER_SESSION_LOG.md` is ready for honest completion.

@@ -1,4 +1,4 @@
-"""Extract the user-visible Week 12 exchange into a Markdown build record."""
+"""Extract the user-visible Week 13 exchange into a Markdown build record."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 DB = Path("/Users/davidbuzali/.codex/thread_history_1.sqlite")
-THREAD_ID = "01a188b4-0253-76e3-a3a5-a55f30f4c6b7"
+THREAD_ID = "01a1b7ce-4823-7b20-85c0-33a4309e7131"
 OUT = ROOT / "docs" / "BUILDCHAT.md"
 TZ = ZoneInfo("America/Mexico_City")
 
@@ -40,17 +40,17 @@ def main() -> None:
         ).fetchall()
 
     lines = [
-        "# BUILDCHAT - Primer Peldaño Week 12",
+        "# BUILDCHAT - Primer Peldaño Week 13",
         "",
         "**Participant:** David Buzali",
         "",
-        "**Development date:** 29 October 2026",
+        "**Development date:** 7 November 2026",
         "",
-        "**Repository:** https://github.com/davidbuzali/week-12-primer-peldano",
+        "**Repository:** https://github.com/davidbuzali/week-13-primer-peldano",
         "",
-        "**Live URL:** https://primer-peldano-mx.vercel.app",
+        "**Live URL:** https://week-13-primer-peldano.vercel.app",
         "",
-        "This record contains the complete user-visible David-Codex exchange captured during the Week 12 rebuild through final deployment preparation. Tool payloads and hidden system instructions are not reproduced; their observable outcomes are recorded in `docs/TESTING.md`, Git history, and deployment IDs.",
+        "This record contains the complete user-visible David-Codex exchange captured during the Week 13 build through repository creation, two deployments, and the mechanical test-fix-redeploy cycle. Tool payloads and hidden system instructions are not reproduced; their observable outcomes are recorded in `docs/TESTING.md`, Git history, and deployment URLs.",
         "",
     ]
     index = 0

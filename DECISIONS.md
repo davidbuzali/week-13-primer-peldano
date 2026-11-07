@@ -10,6 +10,28 @@
 - Defined the five-user protocol with at least three strangers and prohibited invented results.
 - Tomorrow's first move: implement the honest term-match states and adversarial example before adding analytics.
 
+## Week 13 session close 2 - honest instrumentation and first release
+
+- Replaced user-facing proof language with `Coincidencia de términos`, `Posible información faltante`, and `Sin coincidencia de términos`.
+- Added a keyword-stuffed invented example that can turn every criterion green while remaining explicitly insufficient.
+- Added a typed local event log, five boundary checks, relationship classification, bounded feedback, user-initiated export, and local reset.
+- Kept events categorical and allow-listed; evidence text and open feedback never enter the event stream.
+- Twenty automated tests, type checking, lint, and the production build passed.
+- Created and pushed `https://github.com/davidbuzali/week-13-primer-peldano` with five ordered commits.
+- Created the separate Vercel project and completed production deployment 1 at the stable alias.
+- Next move: execute the live task, find a consequential defect, fix it, and redeploy.
+
+## Week 13 session close 3 - test, fix, and second release
+
+- Live testing found that reset removed browser storage but left the feedback note visible in component memory.
+- Fixed the privacy defect by remounting feedback on a new anonymous session ID and clarified the export disclosure.
+- Re-ran all 20 tests, type checking, lint, and the production build successfully.
+- Pushed the fix commit and completed production deployment 2.
+- Reproduced the exact failure path on the final URL: the note cleared and the event count returned to one.
+- Verified `scrollWidth = clientWidth = 390` at a 390 x 844 viewport with no horizontal overflow.
+- Preserved the remaining evidence gaps instead of fabricating them: five real-user sessions, three strangers, fresh independent persona, employer commitment, worker consent, and comparable 10:1 measurement.
+- Next move: recruit the first two-user batch and record all failures in `docs/FIVE_USER_SESSION_LOG.md`.
+
 ## Week 12 session close 1 - charter before rebuild
 
 - Ratified the conditional Week 12 choice: Primer Peldaño, sourced from Week 9 and distinct from the teammates' named chapters.
