@@ -1,131 +1,179 @@
-# Week 12 Venture Packet - Primer Peldaño
+# Week 13 Venture Packet - Primer Peldaño
 
 ## Packet before code
 
-This packet was finalized before the Week 12 rebuild. The binding product decisions live in [PRODUCT_CHARTER.md](./PRODUCT_CHARTER.md).
+This packet defines the Week 13 slice before any Week 13 product code is changed. It translates the Week 13 Operator brief and three-founder Blueprint into one testable build for Primer Peldaño. It also applies David's manifesto: expand opportunity without abandoning health, truth, worker agency, or the relationships the venture is intended to strengthen.
 
 ## Problem in my words
 
-People can perform useful work for decades and still be rejected because the proof comes from an informal, unfamiliar, or uncertified setting. The product problem is not to generate a better CV or to award a score. It is to make one employer say, in advance, what evidence it will accept for one opening, then help the worker present only the evidence that actually supports those criteria.
+The current demo can organize visible words into criterion-level signals, but a green state can still look more authoritative than it is. Five positive reactions would not prove that a worker understands the product or that an employer would accept the evidence. The Week 13 problem is to observe whether outsiders can complete one invented task and explain the product's limits without coaching, especially when a deliberately keyword-stuffed example tempts them to mistake term overlap for verified or sufficient evidence.
 
 ## Exact user
 
-An experienced worker in Mexico whose existing work is overlooked because it lacks familiar credentials or employer provenance. The reported current case informs the need, but the public prototype uses invented records until consent and an employer acceptance commitment exist.
+The product user remains an experienced worker in Mexico whose useful work is overlooked because it came from an informal, unfamiliar, or uncertified setting. The Week 13 test participant is a relevant outsider who did not build the product: a worker, job seeker, hiring manager, recruiter, workforce practitioner, or community educator who can attempt the same fictional task. At least three of the five participants must be strangers to David; friends-and-family-only testing is forbidden.
 
 ## Success definition
 
-Before the Week 12 module closes, the public Primer Peldaño URL lets a visitor complete one invented flow: inspect a simulated employer commitment, edit bounded work evidence, map visible evidence to four published criteria, see supported / partial / unresolved states, inspect provenance, correct the record, and export a local copy. The same input must always produce the same result, and no output may contain a global score or hiring prediction.
+Before the Week 13 module closes, the public URL must let an outsider complete one invented evidence-mapping task in ten minutes or less, confront a keyword-stuffed counterexample, answer five comprehension checks, leave anonymous structured feedback, and download the local event log. Without coaching, each participant must explain that the vacancy and records are invented, a term match is not verification or sufficiency, the file stays on the device unless the worker shares it, a human decides, and no employer receives anything automatically.
+
+Five sessions can expose usability failures; they cannot establish employer demand, worker benefit, evidence truth, a 10:1 improvement, or a hiring outcome. One belief that the system sent a file or verified evidence triggers a fix and retest even if the participant says they like the product.
 
 ## Image-generated mockup
 
-The following direction-setting mockup was generated before implementation. It is not evidence that the feature works. It uses invented content and deliberately foregrounds the commitment gate, criterion states, worker control, and the absence of a global score.
+The direction-setting image below was generated before Week 13 implementation. It is a design hypothesis, not evidence that the feature works. The final interface may differ after testing, but it must preserve the honest term-match language, the five comprehension boundaries, local-only activity log, and human-review authority.
 
-![Image-generated Week 12 Primer Peldaño evidence-map mockup](assets/primer-peldano-week12-mockup.png)
+![Image-generated Week 13 comprehension-test mockup](assets/primer-peldano-week13-mockup.png)
 
 ## Feature flow
 
 ```mermaid
 flowchart TD
-    A[Open Primer Peldaño] --> B[Read opening and employer commitment state]
-    B --> C{Employer accepted named evidence?}
-    C -- No or absent --> X[Stop: do not ask worker for live evidence]
-    C -- Simulated demo --> D[Load invented record only]
-    C -- Real and dated --> E[Begin consented evidence session]
-    D --> F[Validate bounded fields]
-    E --> F
-    F --> G[Derive transparent evidence signals]
-    G --> H[Map signals to published criteria]
-    H --> I[Show supported / partial / unresolved]
-    I --> J[Inspect provenance and missing evidence]
-    J --> K[Worker corrects or withholds]
-    K --> L[Export local portable record]
+    A[Open public Primer Peldaño URL] --> B[See real-use stop state]
+    B --> C{Choose invented practice?}
+    C -- No --> X[Stop without collecting evidence]
+    C -- Yes --> D[Create anonymous local session]
+    D --> E[Choose one invented evidence example]
+    E --> F[Validate bounded visible text]
+    F --> G[Calculate term-overlap signals]
+    G --> H[Show honest criterion labels and provenance]
+    H --> I[Challenge with keyword-stuffed example]
+    I --> J[Answer five boundary checks]
+    J --> K[Leave anonymous feedback]
+    K --> L[Download local event log and optional evidence copy]
+    L --> M[Human reviewer interprets; product does not decide]
 ```
 
 ## Actor swimlane
 
 ```mermaid
 flowchart LR
-    subgraph Employer
-      E1[Verify one opening]
-      E2[Publish criteria and accepted proof]
-      E3[Commit before worker effort]
-      E4[Human review under same rubric]
-    end
-    subgraph Worker
-      W1[Give consent]
-      W2[Describe existing work]
-      W3[Correct or withhold]
-      W4[Export controlled record]
+    subgraph Participant
+      P1[Consent to fictional usability task]
+      P2[Attempt without coaching]
+      P3[Explain five boundaries]
+      P4[Report hesitation or quit point]
     end
     subgraph System
-      S1[Validate bounded input]
-      S2[Map visible evidence]
-      S3[Keep missingness visible]
-      S4[Preserve provenance]
+      S1[Label all records invented]
+      S2[Validate bounded input]
+      S3[Show term overlap, not verification]
+      S4[Record anonymous events locally]
+      S5[Export event log only on request]
+    end
+    subgraph Facilitator
+      F1[Read the same task script]
+      F2[Observe time and interventions]
+      F3[Do not rescue before stopping point]
+      F4[Log consequential confusion]
+    end
+    subgraph HumanReviewer
+      H1[Review evidence under employer rubric]
+      H2[Choose proceed, clarify, or decline]
     end
 
-    E1 --> E2 --> E3 --> W1
-    W1 --> W2 --> S1 --> S2 --> S3 --> S4 --> W3 --> W4 --> E4
+    F1 --> P1 --> P2 --> S1 --> S2 --> S3 --> P3 --> P4
+    P2 --> F2 --> F3 --> F4
+    S3 --> S4 --> S5
+    S3 --> H1 --> H2
 ```
 
 ## Benchmark line
 
-**Best existing solution on Earth:** Opportunity@Work's STARs ecosystem is the strongest benchmark for changing employer practice around workers Skilled Through Alternative Routes; its skills-first guidance begins with removing unnecessary credential filters, articulating skills, and evaluating candidates on those skills.
+**Best existing solution on Earth:** Opportunity@Work's STARs ecosystem is the strongest benchmark for changing employer demand because it helps employers recognize workers Skilled Through Alternative Routes and shift from pedigree screens toward skills-first hiring.
 
-**How Primer Peldaño differs or localizes:** it narrows that systemic change to one Mexico-localized transaction: before a worker prepares evidence, one employer must accept named proof in place of prior formal experience for one opening; the worker reuses existing work, controls the record, and never receives a global rank.
+**How Primer Peldaño differs or localizes:** Primer Peldaño narrows that systemic change to one Mexico-localized, vacancy-specific preflight: the employer must accept named evidence before the worker invests effort, the worker controls sharing, and the interface labels text overlap as neither verification nor sufficiency.
 
-The OECD's 2026 skills-first work supports the translation problem: workers struggle to describe capabilities in terms employers interpret reliably, while employers continue to use indirect proxies such as titles, years of experience, and credentials.
+CONOCER is the local certification comparator, not a feature to imitate lightly: it recognizes competencies acquired formally, informally, or empirically through declared standards, authorized evaluation, evidence, and a human certification process. Primer Peldaño does not certify or replace CONOCER; it tests whether one employer will consider existing evidence for one opening before a longer application or certification process.
 
-Primary sources:
+Primary references:
 
-- [Opportunity@Work - Implement skills-first hiring](https://www.opportunityatwork.org/topics/skills-first-hiring)
-- [Opportunity@Work - Government as Employer Playbook](https://www.opportunityatwork.org/take-action/psh/government-as-employer-playbook)
-- [OECD - Building a common skills language](https://www.oecd.org/en/publications/a-skills-first-labour-market_2e1b85f0-en/full-report/building-a-common-skills-language_8148eb1f.html)
+- [Opportunity@Work - Who are STARs?](https://www.opportunityatwork.org/stars)
+- [Opportunity@Work - STARs Hiring Playbook](https://www.opportunityatwork.org/take-action/psh/public-sector/stars-hiring-playbook)
+- [CONOCER - How to certify competencies](https://conocer.gob.mx/certifico-mis-competencias/)
+- [CONOCER - Frequently asked questions](https://conocer.gob.mx/preguntas-frecuentes/)
 
 ## Three-year long view
 
-If this slice works, Primer Peldaño becomes shared infrastructure through which employers, universities, and community organizations translate existing informal work into worker-controlled evidence for real openings. Employers publish reusable criterion templates and acceptance commitments, while independent reviewers audit quality, appeals, labor treatment, and 90-day employment outcomes. The product succeeds only if it expands mobility without turning candidates into unpaid test workers or reducing people to opaque scores.
+If this slice works, Primer Peldaño becomes shared infrastructure through which employers, universities, and community organizations translate existing informal work into worker-controlled evidence for real openings. Employers publish reusable criteria and acceptance commitments while independent reviewers audit quality, appeals, labor treatment, queue capacity, and 90-day employment outcomes. The venture succeeds only if it expands mobility without turning candidates into unpaid test workers, hiding uncertainty, or reducing people to opaque scores.
 
 ## Scope cut
 
-This week does not build a CV builder, job board, candidate marketplace, ranking, credential, identity-verification service, background check, payroll flow, hiring decision, new work assignment, course, unpaid audition, or production LLM. It does not publish the reported worker's story or assert that an employer has committed. It does not claim 10:1 value. The employer commitment, consented worker evidence, comparable 10:1 measurement, and actual human review remain unresolved field gates, not claims the software can manufacture.
+This week does not build a job board, CV generator, candidate marketplace, credential, certification, identity check, background check, automated hiring decision, employer inbox, reviewer dashboard, production AI, new work sample, or real application flow. It does not collect real personal data, transmit records to an employer, claim a real vacancy, or claim five completed sessions before they occur. It does not prove a 10:1 result; all five-user findings remain descriptive and are reported with failures, withdrawals, missing data, participant relationship, and interventions.
+
+## Shadow clause
+
+- A voluntary test must not become an implied hiring requirement.
+- Every session uses fictional records and has no hiring consequence.
+- A future real-vacancy pilot must preserve the existing application path with the same deadline, consideration, and review standard.
+- The hiring manager never receives research behavior, completion time, feedback, or the decision to participate.
+- The system must not present a fictional employer as a real opportunity or a term match as verified evidence.
+- The user bears no hidden upload, unpaid work sample, or automatic data transfer.
 
 ## Architecture and free stack
 
-| Layer | Choice | Boundary |
+| Layer | Choice | Week 13 boundary |
 |---|---|---|
-| App | Next.js + React + TypeScript | One responsive public flow, server-rendered shell, client-side interaction. |
-| Styling | Tailwind CSS | Accessible design tokens and responsive layout. |
-| Data | Supabase client boundary | Optional opening/commitment persistence only after RLS and environment configuration; public demo does not store data. |
-| Logic | Deterministic TypeScript rules | Transparent mapping from visible evidence; no prediction or global score. |
-| Hosting | Vercel | Public venture-identity URL and repeatable production deployments. |
-| Source | GitHub | Minimum five auditable Week 12 commits. |
-| Security | Invented demo data, input limits, sensitive-pattern blocking, no secret in repository | No personal data is accepted or stored in the public demo. |
+| App | Next.js 16 + React 19 + TypeScript | One responsive public flow with semantic HTML and keyboard support. |
+| Styling | Tailwind CSS 4 | Existing editorial design system; high-contrast status language that does not rely on color alone. |
+| Mapping | Deterministic TypeScript | Visible term-overlap signals only; no verification, score, rank, or model inference. |
+| Analytics | Browser `localStorage` event log | Anonymous session ID, event name, timestamp, and bounded metadata; no names, contact details, evidence text, or cross-device tracking. |
+| Feedback | Local structured form | Five comprehension checks, task verdict, optional 240-character note, relationship category, and consent; downloadable JSON, never automatically sent. |
+| Data | No production database | Supabase remains disabled for the public demo; no personal information is accepted or stored. |
+| Hosting | Vercel | Dedicated Week 13 project and public URL, separate from Week 12. |
+| Source | Dedicated GitHub repository | At least five ordered Week 13 commits, separate from the Week 12 repository. |
+
+## Event schema
+
+The local log may record only: `session_started`, `demo_opened`, `example_selected`, `mapping_completed`, `provenance_opened`, `boundary_answered`, `adversarial_verdict`, `feedback_submitted`, `log_downloaded`, and `session_reset`. Every event contains an anonymous random session ID, ISO timestamp, event name, and allow-listed categorical metadata. It must never include evidence text, free-text feedback, IP address, device fingerprint, email, phone, name, employer name, or browser identifiers.
+
+## Five-user session protocol
+
+1. Recruit five relevant outsiders; mark each relationship honestly and require at least three strangers.
+2. Obtain consent for a fictional usability exercise and explain that no job or employer receives the result.
+3. Give every participant the same uncoached task and ten-minute stopping point.
+4. Permit one neutral repetition of the task after five minutes. Pointing, defining product labels, or correcting a misconception counts as an intervention and a failed unassisted pass.
+5. Record completion time, interventions, whether the participant identified the keyword-stuffed example as insufficient, each of the five boundary explanations, hesitation, quit point, and consequential misunderstanding.
+6. Report all outcomes, including withdrawals and missing data. Separate worker-side usability observations from employer-commitment interviews.
+7. Fix the highest-consequence recurring confusion, deploy again, and retest the relevant step.
 
 ## Test plan
 
 ### Mechanical pass
 
-1. Unit-test required fields, length limits, sensitive-pattern blocking, deterministic mapping, provenance, and minimized export.
-2. Run type checking, lint, and the production build.
-3. Deploy the first working slice and verify the public URL.
-4. Complete the flow at desktop and mobile widths; find and document at least one defect.
-5. Fix the defect, rerun all checks, redeploy, and verify the final URL.
-6. Scan tracked files for secrets and unsupported claims.
+1. Unit-test input limits, sensitive-pattern blocking, deterministic mapping, honest status reasons, portable export, local event allow-list, feedback validation, and absence of aggregate scores.
+2. Add a contract test that fails if `Sustentado` returns to the interface or if analytics capture evidence/free text.
+3. Run tests, type checking, lint, production build, and a tracked-secret scan.
+4. Deploy the first Week 13 release to its dedicated Vercel project and verify the anonymous public URL on desktop and 390 x 844 mobile.
+5. Complete the scripted task, find at least one real defect, document it, fix it, rerun checks, and redeploy.
+
+### Real-human pass
+
+Run the five-user protocol above. A session passes only when the participant completes the task within ten minutes and explains all five boundaries without coaching. Praise is not a pass condition. A dangerous misunderstanding is higher priority than positive sentiment and requires a fix and targeted retest.
 
 ### Persona pass
 
-Use a fresh synthetic persona based on an invented mid-career worker who reads slowly on a phone, uses WhatsApp, distrusts hiring platforms, and worries that informal work does not count. Show each screen in order, record every hesitation, and fix the highest-severity confusion. Do not claim this substitutes for a real worker test.
+Use a fresh independent chat with an invented mid-career worker who reads slowly on a phone, uses WhatsApp, distrusts hiring platforms, and quits when data sharing is unclear. Show screenshots in order, record every hesitation, fix the highest-severity confusion, and preserve the transcript. Label the result synthetic; it cannot substitute for the five real users.
 
 ## Acceptance criteria
 
-- The commitment state is visible before evidence input.
-- A missing real commitment blocks any implied live-worker use; the demo is labeled simulated.
-- Empty, over-length, or sensitive-looking text cannot be analyzed.
-- Statuses derive only from visible evidence and update after edits.
-- Every supported or partial result cites visible provenance.
-- Every unresolved criterion names what is missing.
-- No aggregate candidate score, rank, recommendation, certification, verification, or hire prediction appears.
-- The worker can correct the input and export a local record.
-- Supabase remains disabled unless its public configuration exists; no service secret is shipped.
-- The final Vercel URL returns the tested production build.
+- All public records and the employer commitment are visibly labeled invented.
+- The real-use state remains blocked until a documented employer commitment exists.
+- `Sustentado` does not appear; criterion labels are `Coincidencia de términos`, `Posible información faltante`, and `Sin coincidencia de términos`.
+- Every result states that term overlap is not verification or sufficiency.
+- The keyword-stuffed example can produce overlap but the interface still requires a human sufficiency verdict.
+- The visitor can answer all five comprehension checks and cannot submit an incomplete set.
+- The feedback form uses bounded anonymous fields and an explicit consent checkbox.
+- Analytics remain local, minimize metadata, and can be inspected, downloaded, and reset by the visitor.
+- No event contains evidence text or free-text feedback.
+- No global score, match percentage, ranking, recommendation, certification, or hiring prediction appears.
+- The public URL loads anonymously and the final tested release is the deployment of record.
+
+## Commit and deploy sequence
+
+1. Import the Week 12 source into a new Week 13 repository without modifying the old repository.
+2. Commit this packet, mockup, implementation prompt, and charter addendum before Week 13 code.
+3. Commit honest term-match language and the adversarial example.
+4. Commit local event logging, comprehension checks, and anonymous feedback.
+5. Commit automated tests and first-deploy evidence.
+6. Commit the highest-severity test fix and second-deploy evidence.
+7. Commit final decision log, five-user/persona evidence available at that time, and submission PDFs.

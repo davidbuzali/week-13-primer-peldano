@@ -1,9 +1,9 @@
-# Primer Peldaño - Product Charter v2
+# Primer Peldaño - Product Charter v3
 
-**Charter date:** 29 October 2026  
+**Charter date:** 7 November 2026  
 **Venture owner:** David Buzali  
-**Stage:** Week 12 conditional rebuild  
-**Decision source:** Week 12 Method, Verdict, three-founder Blueprint, and David's PPPP-RRRR-VVVV Manifesto
+**Stage:** Week 13 real-human comprehension test  
+**Decision source:** Week 13 Operator brief, three-founder Blueprint, Week 12 charter, and David's PPPP-RRRR-VVVV Manifesto
 
 ## 1. Purpose
 
@@ -19,16 +19,18 @@ The reported October 2026 story is need evidence, not public product data. Prime
 
 > For one opening, show what evidence the employer agreed to consider, map worker-controlled evidence to each declared criterion, preserve provenance and missingness, and reopen gaps for correction - without a global score, hiring prediction, or automatic verdict.
 
-## 4. Core feature for Week 12
+## 4. Core feature for Week 13
 
-The Week 12 build is a **criterion-level evidence map** with an employer-commitment gate.
+The Week 13 build is an **instrumented comprehension test** around the criterion-level evidence map and employer-commitment gate.
 
 1. The opening declares four criteria and acceptable evidence types.
 2. The interface displays whether the commitment is real, simulated, or absent before evidence entry.
 3. The worker chooses an invented demonstration record, edits three bounded evidence fields, and controls what is shown.
-4. Deterministic rules map visible statements to each criterion as `supported`, `partial`, or `unresolved`.
+4. Deterministic rules map visible words to each criterion as `term match`, `possible missing information`, or `no term match`; none means verified or sufficient.
 5. Every non-empty result cites visible provenance; an unresolved criterion explains what is missing.
 6. The worker can correct the input and export a local, portable record.
+7. A participant must confront a keyword-stuffed example, answer five boundary checks, and leave bounded local feedback.
+8. Anonymous allow-listed events stay on the device and can be inspected, downloaded, or deleted by the participant.
 
 ## 5. Non-negotiable conditions
 
@@ -41,9 +43,9 @@ The Week 12 build is a **criterion-level evidence map** with an employer-commitm
 
 ## 6. Success before the module closes
 
-The core feature works at a public Primer Peldaño URL when a visitor can complete the invented demo, change visible evidence, see criterion states update deterministically, inspect provenance, correct the record, and export it locally. Automated checks must pass and the final URL must return the tested production build.
+The core feature works at a dedicated public Week 13 URL when an outsider can complete the invented demo, see honest term-match states, reject the keyword-stuffed example as insufficient, explain five boundaries, leave anonymous local feedback, and export the event log. Automated checks must pass, at least one observed defect must be fixed, and the final URL must return the second tested production deployment.
 
-This milestone proves the interaction and technical boundary only. It does **not** prove employer demand, worker benefit, a 10:1 improvement, evidence truth, or a hire.
+Five sessions may expose interaction failures. This milestone does **not** prove employer demand, worker benefit, a 10:1 improvement, evidence truth, or a hire.
 
 ## 7. Kill and pivot criteria
 

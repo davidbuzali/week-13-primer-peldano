@@ -1,5 +1,15 @@
 # Decision log - Primer Peldaño
 
+## Week 13 session close 1 - separate repository and packet before code
+
+- Preserved the complete Week 12 repository and created a separate Week 13 working repository from its public-source state.
+- Bound the Week 13 slice to an instrumented comprehension test, not a claim of hiring validation.
+- Replaced proof-oriented language in the plan with term-overlap language and required a keyword-stuffed adversarial example.
+- Chose a local-only anonymous event log and bounded feedback form so the test can be audited without collecting personal data.
+- Preserved the Blueprint shadow clause: fictional records, no hiring consequence, no automatic transfer, and an equal existing path for any future real pilot.
+- Defined the five-user protocol with at least three strangers and prohibited invented results.
+- Tomorrow's first move: implement the honest term-match states and adversarial example before adding analytics.
+
 ## Week 12 session close 1 - charter before rebuild
 
 - Ratified the conditional Week 12 choice: Primer Peldaño, sourced from Week 9 and distinct from the teammates' named chapters.
