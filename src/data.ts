@@ -59,4 +59,17 @@ export const evidenceExamples: EvidenceExample[] = [
     evidenceType: 'Lista inventada + fotografías simuladas',
     tags: ['cliente', 'seguimiento', 'organizacion', 'entregas'],
   },
+  {
+    exampleId: 'ev-palabras-04',
+    label: 'Trampa: lista de palabras',
+    shortDescription: 'Contiene términos preferidos, pero no cuenta una acción ni demuestra un resultado.',
+    workerAlias: 'Caso adversarial (inventado)',
+    context: 'Ejercicio de comprensión con texto deliberadamente insuficiente',
+    task: 'Cliente, seguimiento, organización, entregas, mejora, resultado, mensaje digital y registro.',
+    action: 'Organicé, confirmé, registré y mejoré pedidos, clientes, entregas y una hoja de cálculo.',
+    result: 'El resultado quedó listo y permitió reducir algo para el cliente.',
+    evidenceType: 'Texto inventado para probar una limitación del sistema',
+    tags: ['cliente', 'seguimiento', 'organizacion', 'entregas', 'digital', 'registro', 'mejora', 'resultado'],
+    adversarial: true,
+  },
 ]

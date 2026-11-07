@@ -4,6 +4,7 @@ import { evidenceExamples, opening } from '../src/data.ts'
 import { analyzeEvidence, buildPortableRecord, buildSimulatedClaims, deriveEvidenceTags, matchCriteria, recordHasAggregateScore, validateDraft } from '../src/logic.ts'
 
 const daniela = evidenceExamples[0]
+const adversarial = evidenceExamples.find((example) => example.adversarial)
 
 test('complete invented evidence passes bounded validation', () => {
   assert.equal(validateDraft(daniela).length, 0)
@@ -32,6 +33,14 @@ test('criterion matching is deterministic and cites evidence', () => {
   assert.deepEqual(first, second)
   assert.ok(first.every((match) => match.status === 'sustentado'))
   assert.ok(first.every((match) => match.evidenceClaimIds.length > 0))
+})
+
+test('keyword-stuffed text can match terms without becoming verified evidence', () => {
+  assert.ok(adversarial)
+  const result = analyzeEvidence(adversarial, opening)
+  assert.ok(result.matches.every((match) => match.status === 'sustentado'))
+  assert.match(result.uncertainty, /solo señala coincidencias de términos/i)
+  assert.match(result.matches[0].reason, /no demuestra verdad, autoría, calidad ni suficiencia/i)
 })
 
 test('matching follows the visible edited text instead of hidden seed tags', () => {

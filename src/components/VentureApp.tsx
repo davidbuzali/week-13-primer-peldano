@@ -8,9 +8,9 @@ import type { AnalysisResult, EvidenceDraft, MatchStatus } from '@/src/types'
 type GateMode = 'demo' | 'blocked'
 
 const statusMeta: Record<MatchStatus, { label: string; icon: string; card: string; badge: string }> = {
-  sustentado: { label: 'Sustentado', icon: '✓', card: 'border-[#8ccbc0] bg-[#eef9f5]', badge: 'bg-[#147c75] text-white' },
-  parcial: { label: 'Parcial', icon: '◐', card: 'border-[#dfb46d] bg-[#fff9ed]', badge: 'bg-[#b9691d] text-white' },
-  faltante: { label: 'Sin evidencia', icon: '—', card: 'border-[#dfa8a3] bg-[#fff5f3]', badge: 'bg-[#a33d3d] text-white' },
+  sustentado: { label: 'Coincidencia de términos', icon: '≈', card: 'border-[#8ccbc0] bg-[#eef9f5]', badge: 'bg-[#147c75] text-white' },
+  parcial: { label: 'Posible información faltante', icon: '?', card: 'border-[#dfb46d] bg-[#fff9ed]', badge: 'bg-[#b9691d] text-white' },
+  faltante: { label: 'Sin coincidencia de términos', icon: '—', card: 'border-[#dfa8a3] bg-[#fff5f3]', badge: 'bg-[#a33d3d] text-white' },
 }
 
 const fieldLabels = {
@@ -152,7 +152,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
                   <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-[var(--teal)]">Paso 1 · trabajo existente</p><h2 id="evidence-title" className="display mt-2 text-4xl font-semibold">Elige un ejemplo inventado.</h2></div>
                   <span className="rounded-xl border border-[var(--amber)] bg-[var(--amber-soft)] px-4 py-3 text-sm font-extrabold">Sin puntaje global</span>
                 </div>
-                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                   {evidenceExamples.map((example) => (
                     <button className={`rounded-2xl border p-4 text-left transition ${selectedId === example.exampleId ? 'border-[var(--teal)] bg-[var(--teal-soft)] shadow-[inset_0_0_0_1px_var(--teal)]' : 'border-[var(--line)] bg-white hover:border-[var(--teal)]'}`} key={example.exampleId} type="button" onClick={() => chooseExample(example.exampleId)}>
                       <strong className="block">{example.label}</strong>
@@ -160,6 +160,12 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
                     </button>
                   ))}
                 </div>
+                {selected.adversarial && (
+                  <div className="mt-5 rounded-2xl border border-[var(--red)] bg-[var(--red-soft)] p-5 text-sm leading-6 text-[var(--ink-soft)]">
+                    <strong className="block text-[var(--red)]">Caso adversarial: palabras correctas, evidencia insuficiente.</strong>
+                    Este texto está diseñado para activar coincidencias sin explicar una acción comprobable. Si el mapa se ve verde, no significa que la evidencia sea verdadera, clara ni suficiente.
+                  </div>
+                )}
                 <div className="mt-5 rounded-2xl bg-[#eaf1f4] p-5 text-sm leading-6 text-[var(--ink-soft)]"><strong className="text-[var(--ink)]">Practica solo con el ejemplo inventado.</strong> No escribas nombres, teléfonos, correos, identificaciones, cuentas, contraseñas ni datos de salud. Nada se guarda ni se envía.</div>
                 <div className="mt-6 grid gap-5">
                   {(['task', 'action', 'result'] as const).map((field) => (
@@ -179,9 +185,16 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
             {result && (
               <section ref={resultRef} className="mt-6 rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel)] p-6 outline-none md:p-8" tabIndex={-1} aria-labelledby="results-title">
                 <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-[var(--teal)]">Paso 2 · resultado explicable</p><h2 id="results-title" className="display mt-2 text-4xl font-semibold">Mapa de evidencia.</h2><p className="mt-2 text-[var(--ink-soft)]">Estados calculados solo con el texto que ves arriba.</p></div>
+                  <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-[var(--teal)]">Paso 2 · resultado explicable</p><h2 id="results-title" className="display mt-2 text-4xl font-semibold">Mapa de coincidencias.</h2><p className="mt-2 max-w-3xl text-[var(--ink-soft)]">Estados calculados solo con el texto que ves arriba. Una coincidencia no verifica la historia ni demuestra que la evidencia sea suficiente.</p></div>
                   <span className="rounded-xl border border-[var(--amber)] bg-[var(--amber-soft)] px-4 py-3 text-sm font-extrabold">Sin puntaje global</span>
                 </div>
+                {selected.adversarial && (
+                  <div className="mt-6 rounded-2xl border-2 border-[var(--red)] bg-[var(--red-soft)] p-6">
+                    <p className="text-xs font-extrabold uppercase tracking-[.18em] text-[var(--red)]">Desafío de comprensión</p>
+                    <h3 className="display mt-2 text-3xl font-semibold">¿Estas coincidencias bastan para avanzar en una contratación?</h3>
+                    <p className="mt-3 leading-7 text-[var(--ink-soft)]"><strong>No.</strong> El texto repite términos preferidos, pero no permite juzgar qué ocurrió, qué hizo la persona, ni si el resultado es auténtico y suficiente. Solo una revisión humana bajo un criterio publicado puede pedir aclaración, continuar o rechazar.</p>
+                  </div>
+                )}
                 <div className="mt-7 grid gap-4 lg:grid-cols-2">
                   {result.matches.map((match) => {
                     const criterion = opening.criteria.find((item) => item.id === match.criterionId)!
@@ -217,7 +230,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
         )}
 
         <footer className="mt-8 grid gap-4 border-t border-[var(--line)] py-7 text-sm text-[var(--ink-soft)] md:grid-cols-2">
-          <p><strong className="text-[var(--ink)]">Primer Peldaño · Week 12</strong><br />Evidencia inventada, decisiones humanas, incertidumbre visible.</p>
+          <p><strong className="text-[var(--ink)]">Primer Peldaño · Week 13</strong><br />Coincidencias de términos, decisiones humanas, incertidumbre visible.</p>
           <p className="md:text-right"><strong className="text-[var(--ink)]">Persistencia:</strong> {supabaseConfigured ? 'Supabase configurado; el demo aun no escribe datos.' : 'Supabase no configurado; el demo no guarda datos.'}</p>
         </footer>
       </div>

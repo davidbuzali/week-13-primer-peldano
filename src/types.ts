@@ -40,6 +40,7 @@ export interface EvidenceDraft {
 export interface EvidenceExample extends EvidenceDraft {
   label: string
   shortDescription: string
+  adversarial?: true
 }
 
 export interface EvidenceClaim {

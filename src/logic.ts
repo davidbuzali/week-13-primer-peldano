@@ -82,10 +82,10 @@ export function matchCriteria(draft: EvidenceDraft, opening: Opening, claims: Ev
     const status = matchedTags.length === criterion.requiredTags.length ? 'sustentado' : matchedTags.length > 0 ? 'parcial' : 'faltante'
     const missing = criterion.requiredTags.filter((tag) => !matchedTags.includes(tag))
     const reason = status === 'sustentado'
-      ? `Hay evidencia declarada para ${matchedTags.map((tag) => tagLabels[tag] ?? tag).join(' y ')}.`
+      ? `El texto contiene términos relacionados con ${matchedTags.map((tag) => tagLabels[tag] ?? tag).join(' y ')}. Esto no demuestra verdad, autoría, calidad ni suficiencia.`
       : status === 'parcial'
-        ? `Hay una señal de ${matchedTags.map((tag) => tagLabels[tag] ?? tag).join(' y ')}, pero falta evidencia de ${missing.map((tag) => tagLabels[tag] ?? tag).join(' y ')}.`
-        : `No hay evidencia declarada de ${criterion.requiredTags.map((tag) => tagLabels[tag] ?? tag).join(' ni ')}.`
+        ? `El texto contiene términos relacionados con ${matchedTags.map((tag) => tagLabels[tag] ?? tag).join(' y ')}, pero no aparecen señales de ${missing.map((tag) => tagLabels[tag] ?? tag).join(' y ')}.`
+        : `El texto no contiene términos relacionados con ${criterion.requiredTags.map((tag) => tagLabels[tag] ?? tag).join(' ni ')}. Esto no demuestra que la persona carezca de la capacidad.`
     const evidenceClaimIds = status === 'faltante' ? [] : claims.filter((claim) => deriveClaimTags(claim).some((tag) => matchedTags.includes(tag))).map((claim) => claim.id)
     return { criterionId: criterion.id, status, matchedTags, reason, evidenceClaimIds }
   })
@@ -100,7 +100,7 @@ export function analyzeEvidence(draft: EvidenceDraft, opening: Opening): Analysi
     claims,
     matches,
     missingTags,
-    uncertainty: 'Este borrador organiza lo declarado. No verifica identidad, contexto, verdad, autoría, justicia de la evaluación ni que la vacante exista.',
+    uncertainty: 'Este borrador solo señala coincidencias de términos. No verifica identidad, contexto, verdad, autoría, calidad, suficiencia, justicia de la evaluación ni que la vacante exista.',
   }
 }
 
