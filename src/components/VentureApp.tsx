@@ -322,7 +322,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
               </section>
             )}
             {result && selected.adversarial && (
-              <FeedbackPanel onBoundaryAnswer={answerBoundary} onAdversarialVerdict={answerAdversarial} onSubmit={submitFeedback} />
+              <FeedbackPanel key={analyticsState?.sessionId ?? 'no-session'} onBoundaryAnswer={answerBoundary} onAdversarialVerdict={answerAdversarial} onSubmit={submitFeedback} />
             )}
           </>
         )}
@@ -332,7 +332,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
             <div>
               <p className="text-xs font-extrabold uppercase tracking-[.18em] text-[var(--teal)]">Registro de prueba</p>
               <h2 id="local-log-title" className="display mt-1 text-2xl font-semibold">Actividad guardada solo en este dispositivo.</h2>
-              <p className="mt-2 text-sm leading-6 text-[var(--ink-soft)]">{storageAvailable && analyticsState ? `${analyticsState.events.length} eventos anónimos. No incluye el texto de la evidencia ni la nota abierta.` : 'El almacenamiento local está bloqueado. La práctica sigue funcionando y no se envía nada.'}</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--ink-soft)]">{storageAvailable && analyticsState ? `${analyticsState.events.length} eventos anónimos. Los eventos no incluyen el texto de la evidencia ni la nota abierta. Si guardas retroalimentación, la descarga sí incluye esa nota local para que tú decidas si la compartes.` : 'El almacenamiento local está bloqueado. La práctica sigue funcionando y no se envía nada.'}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <button className="rounded-xl bg-[var(--ink)] px-4 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled={!analyticsState || !storageAvailable} onClick={downloadTestLog}>Descargar registro</button>

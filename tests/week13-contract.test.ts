@@ -37,4 +37,6 @@ test('feedback is local, bounded, and consented', () => {
   assert.match(feedbackSource, /Persona desconocida antes de esta prueba/)
   assert.match(feedbackSource, /type="checkbox"/)
   assert.doesNotMatch(feedbackSource, /<form|action=/)
+  assert.match(appSource, /key=\{analyticsState\?\.sessionId/)
+  assert.match(appSource, /la descarga sí incluye esa nota local/i)
 })
