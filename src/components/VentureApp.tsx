@@ -1,7 +1,10 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import FeedbackPanel from '@/src/components/FeedbackPanel'
 import { evidenceExamples, opening } from '@/src/data'
+import { appendLocalAnalyticsEvent, getOrCreateLocalAnalytics, resetLocalAnalytics, saveLocalFeedback, type AnalyticsEventName, type AnalyticsMetadata, type LocalAnalyticsState } from '@/src/analytics'
+import { toStoredFeedback, validateFeedback, type BoundaryAnswer, type FeedbackDraft } from '@/src/feedback'
 import { analyzeEvidence, buildPortableRecord, validateDraft } from '@/src/logic'
 import type { AnalysisResult, EvidenceDraft, MatchStatus } from '@/src/types'
 
@@ -29,7 +32,37 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
   const [result, setResult] = useState<AnalysisResult | null>(null)
   const [message, setMessage] = useState('')
   const [correctionRequested, setCorrectionRequested] = useState(false)
+  const [analyticsState, setAnalyticsState] = useState<LocalAnalyticsState | null>(null)
+  const [storageAvailable, setStorageAvailable] = useState(true)
   const resultRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const task = window.setTimeout(() => {
+      try {
+        setAnalyticsState(getOrCreateLocalAnalytics(window.localStorage))
+      } catch {
+        setStorageAvailable(false)
+      }
+    }, 0)
+    return () => window.clearTimeout(task)
+  }, [])
+
+  const recordEvent = (name: AnalyticsEventName, metadata: AnalyticsMetadata = {}) => {
+    setAnalyticsState((current) => {
+      if (!current) return current
+      try {
+        return appendLocalAnalyticsEvent(window.localStorage, current, name, metadata)
+      } catch {
+        setStorageAvailable(false)
+        return current
+      }
+    })
+  }
+
+  const openDemo = () => {
+    setGateMode('demo')
+    recordEvent('demo_opened')
+  }
 
   const chooseExample = (id: string) => {
     const next = evidenceExamples.find((item) => item.exampleId === id) ?? evidenceExamples[0]
@@ -38,6 +71,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
     setResult(null)
     setMessage('')
     setCorrectionRequested(false)
+    recordEvent('example_selected', { exampleId: next.exampleId, adversarial: Boolean(next.adversarial) })
   }
 
   const update = (field: 'task' | 'action' | 'result', value: string) => {
@@ -52,8 +86,16 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
       setMessage(errors.join(' '))
       return
     }
-    setResult(analyzeEvidence(draft, opening))
+    const analysis = analyzeEvidence(draft, opening)
+    setResult(analysis)
     setMessage('Mapa actualizado con reglas determinísticas y evidencia visible.')
+    recordEvent('mapping_completed', {
+      exampleId: draft.exampleId,
+      adversarial: Boolean(selected.adversarial),
+      fullMatches: analysis.matches.filter((match) => match.status === 'sustentado').length,
+      partialMatches: analysis.matches.filter((match) => match.status === 'parcial').length,
+      noMatches: analysis.matches.filter((match) => match.status === 'faltante').length,
+    })
     window.setTimeout(() => resultRef.current?.focus(), 0)
   }
 
@@ -66,6 +108,59 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
     anchor.download = `primer-peldano-${draft.exampleId}.json`
     anchor.click()
     URL.revokeObjectURL(url)
+  }
+
+  const submitFeedback = (draft: FeedbackDraft): string[] => {
+    const errors = validateFeedback(draft)
+    if (errors.length > 0) return errors
+    if (!analyticsState || !storageAvailable) return ['El almacenamiento local no está disponible. La tarea funciona, pero esta respuesta no puede guardarse en este dispositivo.']
+    const feedback = toStoredFeedback(draft)
+    try {
+      let next = saveLocalFeedback(window.localStorage, analyticsState, feedback)
+      next = appendLocalAnalyticsEvent(window.localStorage, next, 'feedback_submitted', {
+        relationship: feedback.relationship,
+        taskVerdict: feedback.taskVerdict,
+        allBoundariesCorrect: feedback.allBoundariesCorrect,
+      })
+      setAnalyticsState(next)
+      return []
+    } catch {
+      setStorageAvailable(false)
+      return ['No fue posible guardar la respuesta localmente. Ningún dato salió del dispositivo.']
+    }
+  }
+
+  const answerBoundary = (questionId: string, answer: BoundaryAnswer) => {
+    recordEvent('boundary_answered', { questionId, answer })
+  }
+
+  const answerAdversarial = (answer: FeedbackDraft['adversarialVerdict']) => {
+    if (answer) recordEvent('adversarial_verdict', { answer })
+  }
+
+  const downloadTestLog = () => {
+    if (!analyticsState) return
+    try {
+      const next = appendLocalAnalyticsEvent(window.localStorage, analyticsState, 'log_downloaded', { eventCount: analyticsState.events.length })
+      setAnalyticsState(next)
+      const url = URL.createObjectURL(new Blob([JSON.stringify(next, null, 2)], { type: 'application/json' }))
+      const anchor = document.createElement('a')
+      anchor.href = url
+      anchor.download = `primer-peldano-prueba-${next.sessionId.slice(0, 8)}.json`
+      anchor.click()
+      URL.revokeObjectURL(url)
+    } catch {
+      setStorageAvailable(false)
+    }
+  }
+
+  const resetTestSession = () => {
+    try {
+      setAnalyticsState(resetLocalAnalytics(window.localStorage))
+      setStorageAvailable(true)
+    } catch {
+      setStorageAvailable(false)
+    }
   }
 
   const showDemo = gateMode === 'demo'
@@ -109,7 +204,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
               <p className="mt-3 max-w-3xl leading-7 text-[var(--ink-soft)]">{showDemo ? opening.commitment.language : 'No pedimos trabajo, documentos ni datos a una persona hasta que un empleador publique los criterios y acepte evidencia nombrada para una vacante real.'}</p>
             </div>
             <div className="flex min-w-[250px] flex-col gap-2 rounded-2xl border border-black/10 bg-white/70 p-2" role="group" aria-label="Estado del compromiso">
-              <button className={`rounded-xl px-4 py-3 text-left text-sm font-extrabold ${showDemo ? 'bg-[var(--ink)] text-white' : 'text-[var(--ink)] hover:bg-white'}`} type="button" onClick={() => setGateMode('demo')}>Abrir demo inventada</button>
+              <button className={`rounded-xl px-4 py-3 text-left text-sm font-extrabold ${showDemo ? 'bg-[var(--ink)] text-white' : 'text-[var(--ink)] hover:bg-white'}`} type="button" onClick={openDemo}>Abrir demo inventada</button>
               <button className={`rounded-xl px-4 py-3 text-left text-sm font-extrabold ${!showDemo ? 'bg-[var(--red)] text-white' : 'text-[var(--ink)] hover:bg-white'}`} type="button" onClick={() => setGateMode('blocked')}>Uso real: sin compromiso</button>
             </div>
           </div>
@@ -125,7 +220,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
             <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--red-soft)] text-3xl text-[var(--red)]" aria-hidden="true">×</span>
             <h2 className="display mt-5 text-4xl font-semibold">No hay nada que llenar.</h2>
             <p className="mx-auto mt-3 max-w-xl leading-7 text-[var(--ink-soft)]">Detenerse protege el tiempo de la persona. El siguiente paso pertenece al empleador: verificar la vacante, publicar criterios y firmar qué evidencia aceptará.</p>
-            <button className="mt-6 rounded-xl bg-[var(--ink)] px-5 py-3 font-extrabold text-white" type="button" onClick={() => setGateMode('demo')}>Abrir demo inventada</button>
+            <button className="mt-6 rounded-xl bg-[var(--ink)] px-5 py-3 font-extrabold text-white" type="button" onClick={openDemo}>Abrir demo inventada</button>
           </section>
         ) : (
           <>
@@ -204,7 +299,7 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
                       <article className={`rounded-2xl border p-5 ${meta.card}`} key={match.criterionId}>
                         <div className="flex items-start gap-4"><span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-black ${meta.badge}`} aria-hidden="true">{meta.icon}</span><div><span className="text-xs font-black uppercase tracking-[.15em]">{meta.label}</span><h3 className="display mt-1 text-2xl font-semibold">{criterion.label}</h3></div></div>
                         <p className="mt-4 leading-7 text-[var(--ink-soft)]">{match.reason}</p>
-                        <details className="mt-4 border-t border-black/10 pt-4">
+                        <details className="mt-4 border-t border-black/10 pt-4" onToggle={(event) => { if (event.currentTarget.open) recordEvent('provenance_opened', { criterionId: criterion.id }) }}>
                           <summary className="cursor-pointer font-extrabold">Ver procedencia y qué corregir</summary>
                           {claims.length > 0 ? <ul className="mt-3 space-y-2 text-sm leading-6">{claims.map((claim) => <li className="rounded-xl bg-white/75 p-3" key={claim.id}><strong className="capitalize">{sourceLabels[claim.sourceField]}:</strong> “{claim.statement}”</li>)}</ul> : <p className="mt-3 text-sm leading-6">No se cita evidencia porque este criterio sigue sin apoyo visible. Corrige los campos de arriba solo si existe evidencia real.</p>}
                         </details>
@@ -226,8 +321,25 @@ export default function VentureApp({ supabaseConfigured }: { supabaseConfigured:
                 </div>
               </section>
             )}
+            {result && selected.adversarial && (
+              <FeedbackPanel onBoundaryAnswer={answerBoundary} onAdversarialVerdict={answerAdversarial} onSubmit={submitFeedback} />
+            )}
           </>
         )}
+
+        <section className="mt-6 rounded-[1.6rem] border border-[var(--line)] bg-[var(--panel)] p-5 md:p-6" aria-labelledby="local-log-title">
+          <div className="flex flex-wrap items-center justify-between gap-5">
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-[.18em] text-[var(--teal)]">Registro de prueba</p>
+              <h2 id="local-log-title" className="display mt-1 text-2xl font-semibold">Actividad guardada solo en este dispositivo.</h2>
+              <p className="mt-2 text-sm leading-6 text-[var(--ink-soft)]">{storageAvailable && analyticsState ? `${analyticsState.events.length} eventos anónimos. No incluye el texto de la evidencia ni la nota abierta.` : 'El almacenamiento local está bloqueado. La práctica sigue funcionando y no se envía nada.'}</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button className="rounded-xl bg-[var(--ink)] px-4 py-3 text-sm font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled={!analyticsState || !storageAvailable} onClick={downloadTestLog}>Descargar registro</button>
+              <button className="rounded-xl border border-[var(--line)] bg-white px-4 py-3 text-sm font-extrabold text-[var(--ink)] disabled:cursor-not-allowed disabled:opacity-40" type="button" disabled={!analyticsState || !storageAvailable} onClick={resetTestSession}>Borrar y reiniciar sesión</button>
+            </div>
+          </div>
+        </section>
 
         <footer className="mt-8 grid gap-4 border-t border-[var(--line)] py-7 text-sm text-[var(--ink-soft)] md:grid-cols-2">
           <p><strong className="text-[var(--ink)]">Primer Peldaño · Week 13</strong><br />Coincidencias de términos, decisiones humanas, incertidumbre visible.</p>
